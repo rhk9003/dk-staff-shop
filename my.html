@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>我的業績｜DK員工專屬賣場</title>
+<style>
+:root{
+  --bg:#f6f4f0; --card:#ffffff; --ink:#1c2540; --muted:#6b7080; --line:#e4e0d8;
+  --brand:#1c2540; --accent:#c48c48; --chip:#ece8e0; --err:#b3261e; --ok:#2f7d4f;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#14171f; --card:#1d2130; --ink:#eef0f6; --muted:#a0a6b8; --line:#2c3144;
+         --brand:#0f1320; --chip:#2a2f42; --err:#f2b8b5; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;}
+header{background:var(--brand);color:#fff;padding:24px 16px 20px;text-align:center}
+header h1{margin:0;font-size:22px;letter-spacing:1px}
+header p{margin:6px 0 0;color:var(--accent);font-size:14px}
+header a{color:#cfd5e6;font-size:13px;text-decoration:none}
+.wrap{max-width:560px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:14px 0}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--chip);border-radius:10px;padding:4px;margin-bottom:16px}
+.tabs button{border:0;background:transparent;color:var(--ink);padding:10px;border-radius:8px;font-size:15px;cursor:pointer}
+.tabs button.on{background:var(--card);font-weight:700}
+label{display:block;font-size:14px;color:var(--muted);margin:12px 0 6px}
+input[type=text],input[type=password]{width:100%;font-size:17px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink)}
+.remember{display:flex;align-items:center;gap:8px;margin:14px 0 4px;font-size:14px;color:var(--muted)}
+.btn{display:block;width:100%;margin-top:16px;border:0;background:var(--ink);color:var(--bg);padding:13px;border-radius:10px;
+  font-size:16px;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.5}
+.link{background:none;border:0;color:var(--accent);font-size:14px;cursor:pointer;padding:0}
+.msg{margin-top:12px;font-size:14px;line-height:1.5;min-height:1em}
+.msg.err{color:var(--err)}
+.note{font-size:13px;color:var(--muted);line-height:1.6;margin-top:12px}
+.hello{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.hello h2{margin:0;font-size:20px}
+.hello p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.big{text-align:center;padding:8px 0 4px}
+.big .lbl{color:var(--muted);font-size:14px}
+.big .num{font-size:48px;font-weight:800;color:var(--accent);line-height:1.15}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat{background:var(--bg);border-radius:10px;padding:10px;text-align:center}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:13px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:9px 6px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--muted);font-weight:500}
+td.r,th.r{text-align:right}
+.tag{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--chip);white-space:nowrap}
+.tag.x{color:var(--err)}
+.empty{text-align:center;color:var(--muted);padding:18px 0;line-height:1.7}
+.hidden{display:none}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:16px 16px 40px;line-height:1.7}
+</style>
+</head>
+<body>
+<header>
+  <h1>我的業績</h1>
+  <p>🎊 官網獨家秋冬新品・員工專屬賣場</p>
+  <a href="./">← 回到專屬賣場連結</a>
+</header>
+<div class="wrap">
+
+  <div class="card" id="auth">
+    <div class="tabs">
+      <button id="tLogin" class="on" type="button">登入</button>
+      <button id="tReg" type="button">第一次使用（註冊）</button>
+    </div>
+    <form id="fLogin">
+      <label for="lEid">員工編號</label>
+      <input id="lEid" type="text" inputmode="text" autocomplete="username" placeholder="例：0026" required>
+      <label for="lPw">密碼</label>
+      <input id="lPw" type="password" autocomplete="current-password" required>
+      <div class="remember"><input id="lRem" type="checkbox" checked><label for="lRem" style="margin:0">在這支手機記住我（30 天）</label></div>
+      <button class="btn" type="submit">登入</button>
+      <div class="msg" id="lMsg"></div>
+    </form>
+    <form id="fReg" class="hidden">
+      <label for="rEid">員工編號</label>
+      <input id="rEid" type="text" inputmode="text" autocomplete="username" placeholder="例：0026" required>
+      <label for="rPw">設定密碼（至少 6 個字）</label>
+      <input id="rPw" type="password" autocomplete="new-password" minlength="6" required>
+      <label for="rPw2">再輸入一次密碼</label>
+      <input id="rPw2" type="password" autocomplete="new-password" minlength="6" required>
+      <button class="btn" type="submit">註冊並登入</button>
+      <div class="msg" id="rMsg"></div>
+      <p class="note">註冊後，這個員工編號就只有你能登入。<br>如果顯示「已經註冊過」但不是你本人註冊的，請聯絡電商部協助重設。</p>
+    </form>
+  </div>
+
+  <div id="dash" class="hidden">
+    <div class="card">
+      <div class="hello">
+        <div><h2 id="dName"></h2><p id="dStore"></p></div>
+        <button class="link" id="logout" type="button">登出</button>
+      </div>
+      <div class="big">
+        <div class="lbl">目前可領獎金</div>
+        <div class="num" id="dBonus"></div>
+        <div class="lbl" id="dUpdated"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="dSold"></b><span>售出雙數</span></div>
+        <div class="stat"><b id="dRef"></b><span>取消／退貨</span></div>
+        <div class="stat"><b id="dCnt"></b><span>計算雙數</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 8px;font-size:17px">訂單明細</h3>
+      <div id="dDetail"></div>
+    </div>
+  </div>
+
+</div>
+<footer>每賣出 1 雙 $50，扣除取消、退貨；當月賣出、隔月薪資發放。<br>數字每天更新，實際金額以公司結算為準。</footer>
+<script>
+const API = "https://script.google.com/macros/s/AKfycbzOXppp9hEQeYuir5ut4NHgEJRK-4aSYHYWjggnPVsDLAshPCy00xK4QebmMEiKCVYUSg/exec";
+const KEY = "dkStaffToken";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(){ try { return localStorage.getItem(KEY); } catch { return null; } },
+  set(v){ try { localStorage.setItem(KEY, v); } catch {} },
+  del(){ try { localStorage.removeItem(KEY); } catch {} },
+};
+const ERR = {
+  not_in_roster: "查無此員工編號，請確認是否輸入正確。",
+  weak_password: "密碼至少要 6 個字。",
+  already_registered: "這個員工編號已經註冊過了，請直接登入。若不是你本人註冊的，請聯絡電商部。",
+  not_registered: "這個員工編號還沒註冊，請先點上方「第一次使用（註冊）」。",
+  wrong_password: "密碼錯誤。",
+  locked: "密碼錯太多次，已暫時鎖定。",
+  forbidden: "沒有權限。",
+};
+function errText(r){
+  let t = ERR[r.error] || "系統忙碌中，請稍後再試。";
+  if (r.error === "wrong_password" && r.remaining) t += `還可以再試 ${r.remaining} 次。`;
+  if (r.error === "locked" && r.minutes) t += `請 ${r.minutes} 分鐘後再試。`;
+  return t;
+}
+async function call(body){
+  const res = await fetch(API, {method:"POST", body: JSON.stringify(body)});
+  return res.json();
+}
+function tab(reg){
+  $("#tLogin").classList.toggle("on", !reg); $("#tReg").classList.toggle("on", reg);
+  $("#fLogin").classList.toggle("hidden", reg); $("#fReg").classList.toggle("hidden", !reg);
+}
+$("#tLogin").onclick = () => tab(false);
+$("#tReg").onclick = () => tab(true);
+
+const money = n => "$" + Number(n || 0).toLocaleString("en-US");
+function show(d){
+  $("#auth").classList.add("hidden"); $("#dash").classList.remove("hidden");
+  $("#dName").textContent = `${d.name || ""}（${d.eid}）`;
+  $("#dStore").textContent = d.store || "";
+  $("#dBonus").textContent = money(d.bonus);
+  $("#dUpdated").textContent = d.updated ? `資料更新至 ${d.updated}` : "資料尚未更新";
+  $("#dSold").textContent = d.sold; $("#dRef").textContent = d.refunded; $("#dCnt").textContent = d.counted;
+  const rows = d.details || [];
+  $("#dDetail").innerHTML = rows.length
+    ? `<table><tr><th>日期</th><th>款式／尺寸</th><th class="r">雙數</th><th class="r">狀態</th></tr>${rows.map(r =>
+        `<tr><td>${esc(r.date)}</td><td>${esc(r.style)}${r.size ? "／" + esc(r.size) : ""}</td><td class="r">${esc(r.qty)}</td>
+         <td class="r"><span class="tag${r.counted === false ? " x" : ""}">${esc(r.status)}</span></td></tr>`).join("")}</table>`
+    : `<div class="empty">目前還沒有訂單<br>把你的專屬連結分享給客人吧！<br><a href="./#${encodeURIComponent(d.eid)}">→ 我的專屬連結</a></div>`;
+}
+function logout(){ store.del(); $("#dash").classList.add("hidden"); $("#auth").classList.remove("hidden"); }
+$("#logout").onclick = logout;
+
+async function submit(form, msgEl, body, remember){
+  const btn = form.querySelector("button[type=submit]");
+  msgEl.className = "msg"; msgEl.textContent = "處理中…"; btn.disabled = true;
+  try {
+    const r = await call(body);
+    if (!r.ok) { msgEl.className = "msg err"; msgEl.textContent = errText(r); return; }
+    msgEl.textContent = "";
+    if (remember) store.set(r.token); else store.del();
+    form.reset(); show(r.data);
+  } catch (e) {
+    msgEl.className = "msg err"; msgEl.textContent = "連線失敗，請確認網路後再試。";
+  } finally { btn.disabled = false; }
+}
+$("#fLogin").onsubmit = e => {
+  e.preventDefault();
+  submit(e.target, $("#lMsg"), {action:"login", eid:$("#lEid").value.trim(), password:$("#lPw").value}, $("#lRem").checked);
+};
+$("#fReg").onsubmit = e => {
+  e.preventDefault();
+  const m = $("#rMsg");
+  if ($("#rPw").value !== $("#rPw2").value) { m.className = "msg err"; m.textContent = "兩次輸入的密碼不一樣。"; return; }
+  submit(e.target, m, {action:"register", eid:$("#rEid").value.trim(), password:$("#rPw").value}, true);
+};
+
+(async () => {
+  const t = store.get();
+  if (!t) return;
+  try { const r = await call({action:"session", token:t}); if (r.ok) show(r.data); else store.del(); } catch {}
+})();
+</script>
+</body>
+</html>
